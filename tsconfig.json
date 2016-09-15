@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true
+},
+  "exclude": [
+      "node_modules",
+      "app",
+      "bootstrap",
+      "config",
+      "database",
+      "resources",
+      "public",
+      "storage",
+      "tests",
+      "vendor"
+  ]
+}
