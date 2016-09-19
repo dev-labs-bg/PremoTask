@@ -7,3 +7,10 @@
 Homestead.json
 Homestead.yaml
 .env
+public/app.bundle.js
+public/app.bundle.js.map
+public/app.css
+public/polyfills.bundle.js
+public/polyfills.bundle.js.map
+public/vendor.bundle.js
+public/vendor.bundle.js.map
