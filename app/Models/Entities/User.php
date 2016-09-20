@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Entities;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,4 +26,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Retrieve the country the user belongs to
+     *
+     * @relationship
+     * @return object $country
+     */
+    public function country()
+    {
+        return $this->belongsTo('Country');
+    }
 }
