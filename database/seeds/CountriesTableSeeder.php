@@ -11,11 +11,14 @@ class CountriesTableSeeder extends Seeder
      */
     public function run()
     {
+        // get instances of classes we need
         $countryRepo = app(\App\Models\Repositories\CountryRepository::class);
-        $countryService = app(\App\Models\Services\CountryService::class);
+        $countryFetcher = app(\App\APIs\RestCountries\CountryFetcher::class);
 
-        $countries = $countryService->fetchCountries();
+        // fetch all contries API
+        $countries = $countryFetcher->getAll();
 
+        // save all countries
         foreach ($countries as $country)
             $countryRepo->createCountry(['name' => $country->name]);
     }

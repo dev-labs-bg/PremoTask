@@ -18,12 +18,12 @@ class CountryFetcher
      *
      * @var string
      */
-    protected $api_url;
+    protected $apiUrl;
 
     public function __construct()
     {
         $this->client = new Client();
-        $this->api_url = "https://restcountries.eu/rest/v1";
+        $this->apiUrl = "https://restcountries.eu/rest/v1";
     }
 
     /**
@@ -34,7 +34,7 @@ class CountryFetcher
      */
     public function getAll()
     {
-        $result = $this->client->request('GET', $this->api_url . '/all');
+        $result = $this->client->request('GET', $this->apiUrl . '/all');
         $countries = json_decode($result->getBody());
 
         return $countries;
