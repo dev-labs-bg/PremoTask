@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Repositories;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -26,11 +26,11 @@ class RepositoriesServiceProvider extends ServiceProvider
          * @see https://laravel.com/docs/5.3/container
          */
         $this->app->bind(\App\Models\Repositories\UserRepository::class, function ($app) {
-            return new UserRepository(new \App\Models\Entities\User);
+            return new \App\Models\Repositories\UserRepository(new \App\Models\Entities\User);
         });
 
         $this->app->bind(\App\Models\Repositories\CountryRepository::class, function ($app) {
-            return new CountryRepository(new \App\Models\Entities\Country);
+            return new \App\Models\Repositories\CountryRepository(new \App\Models\Entities\Country);
         });
     }
 }

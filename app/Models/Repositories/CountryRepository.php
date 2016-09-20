@@ -5,7 +5,7 @@ namespace App\Models\Repositories;
 use App\Models\Entities\Country;
 use Illuminate\Database\Eloquent\Collection;
 
-class UserRepository extends BaseRepository
+class CountryRepository extends BaseRepository
 {
     /**
      * This declaration is not necessary, it's used to
@@ -16,5 +16,19 @@ class UserRepository extends BaseRepository
      */
     protected $model;
 
-    // Methods for fetching App\Models\Entities\Country data from the DB
+    /**
+     * Create a country in db
+     *
+     * @param $data - country data
+     * @return Country $country
+     */
+    public function createCountry($data)
+    {
+        $country = new $this->model;
+
+        $country = $this->fill($country, $data);
+        $country->save();
+
+        return $country;
+    }
 }
