@@ -15,7 +15,7 @@ class AddCountryIdToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table)
         {
-            $table->integer('country_id')->unsigned();
+            $table->integer('country_id')->unsigned()->default('');
             
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });
