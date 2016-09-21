@@ -2,28 +2,20 @@
 
 namespace App\APIs\RestCountries;
 
-use GuzzleHttp\Client;
+use App\APIs\ApiManager;
 
-class CountryFetcher
+class CountryFetcher extends ApiManager
 {
     /**
-     * Http service
-     *
-     * @var object
+     * Class construct
+     * Call parent construct on each new class
+     * extending the ApiManager
      */
-    protected $client;
-
-    /**
-     * Api main url
-     *
-     * @var string
-     */
-    protected $api_url;
-
     public function __construct()
     {
-        $this->client = new Client();
-        $this->api_url = "https://restcountries.eu/rest/v1";
+        parent::__construct();
+
+        $this->apiUrl = "https://restcountries.eu/rest/v1";
     }
 
     /**
@@ -34,7 +26,7 @@ class CountryFetcher
      */
     public function getAll()
     {
-        $result = $this->client->request('GET', $this->api_url . '/all');
+        $result = $this->client->request('GET', $this->apiUrl . '/all');
         $countries = json_decode($result->getBody());
 
         return $countries;

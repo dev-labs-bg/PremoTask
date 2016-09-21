@@ -17,23 +17,15 @@ class CountryService
     protected $countryRepo;
 
     /**
-     * Country Api Fetcher
-     *
-     * @var App\APIs\RestCountries\CountryFetcher
-     */
-    protected $countryFetcher;
-
-    /**
      * The constructor will inject a CountryRepository instance to our class
      * with IOC here. It can later be used to fetch all our repo data.
      * In the tests Mockery can overwrite this with the mock object
      *
      * @param CountryRepository $countryRepo
      */
-    public function __construct(CountryRepository $countryRepo, CountryFetcher $countryFetcher)
+    public function __construct(CountryRepository $countryRepo)
     {
         $this->countryRepo = $countryRepo;
-        $this->countryFetcher = $countryFetcher;
     }
 
     /**
@@ -49,14 +41,15 @@ class CountryService
     }
 
     /**
-     * Fetch all countries from the API
+     * Country creation handle
      *
-     * @return array $countries
+     * @param $data - country data
+     * @return Country $country
      */
-    public function fetchCountries()
+    public function create($data)
     {
-        $countries = $this->countryFetcher->getAll();
+        $country = $this->countryRepo->createCountry($data);
 
-        return $countries;
+        return $country;
     }
 }
