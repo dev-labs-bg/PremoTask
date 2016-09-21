@@ -136,10 +136,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $this->assertTrue($arrayHas, $message);
     }
 
+    /**
+     * Since we're using sqlite memory,
+     * everytime we start tests, we'll
+     * need to create our db instance first
+     */
     public function useDb()
     {
         // Use DB
         Artisan::call('migrate');
-        Artisan::call('db:seed', ['--class' => 'CountriesTableSeeder']);
     }
 }

@@ -4,11 +4,6 @@ use App\Models\Entities\Country;
 
 class CountryRepositoryTest extends TestCase
 {
-
-	/**
-     * @var \Faker\Generator;
-     */
-    private $faker;
     /**
      * @var \App\Models\Repositories\UserRepository
      */
@@ -26,9 +21,6 @@ class CountryRepositoryTest extends TestCase
 
         // Migrate and make sure DB is ready to use in those tests
         $this->useDb();
-
-        // Get a faker instance, just in case we need any fake data
-        $this->faker = Faker\Factory::create();
     }
 
     /**

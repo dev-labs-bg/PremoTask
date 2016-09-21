@@ -64,6 +64,5 @@ class CountryServiceTest extends TestCase
 
         // check to array to strip unwanted model relationships
         $this->assertEquals($fakeCountriesCollection->toArray(), $result->toArray());
-        $this->assertCount(2, $result);
     }
 }

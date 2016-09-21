@@ -32,6 +32,28 @@ class UserRepositoryTest extends TestCase
     }
 
     /**
+     * Test getting all users
+     */
+    public function testGetAll()
+    {
+        foreach (range(1,10) as $index)
+        {
+            DB::table('users')->insert([
+                'name' => $this->faker->name,
+                'email' => $this->faker->email,
+                'password' => bcrypt('secret'),
+                'created_at' => new \DateTime(),
+                'updated_at' => new \DateTime()
+            ]);
+        }
+
+        // Get the user from DB with the getById method
+        $userFromDb = $this->userRepository->getAll();
+        // Make sure the user the proper name and email
+        $this->assertCount(10, $userFromDb);
+    }
+
+    /**
      * Test getting user by id
      *
      * @param int $user_id
@@ -43,7 +65,6 @@ class UserRepositoryTest extends TestCase
             'name' => 'test-name',
             'email' => 'test@example.com',
             'password' => '123123',
-            'country_id' => Country::first()->id,
         ]);
 
         $user->save();

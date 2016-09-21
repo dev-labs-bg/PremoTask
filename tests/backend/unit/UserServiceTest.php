@@ -61,8 +61,7 @@ class UserServiceTest extends TestCase
         $result = $this->userService->getUsers();
 
         // Test outcome
-        $this->assertEquals('Test User', $result[0]->name);
-        $this->assertEquals('test@gmail.com', $result[0]->email);
+        $this->assertEquals($fakeUsersCollection->toArray(), $result->toArray());
         $this->assertCount(1, $result);
     }
 
