@@ -22,9 +22,10 @@ class CountryFetcher extends ApiManager
      * Fetch all countries
      *
      * @url /all
+     * @param $limit
      * @return array $countries
      */
-    public function getAll()
+    public function getAll($limit = 0)
     {
         $result = $this->client->request('GET', $this->apiUrl . '/all');
         $countries = json_decode($result->getBody());
