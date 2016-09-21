@@ -65,4 +65,31 @@ class CountryServiceTest extends TestCase
         // check to array to strip unwanted model relationships
         $this->assertEquals($fakeCountriesCollection->toArray(), $result->toArray());
     }
+
+    /**
+     * Test create country handle
+     */
+    public function testCreate()
+    {
+        // country test data
+        $data = [
+            'name' => 'fake-country-name'
+        ];
+
+        // create fake user with fake name
+        $fakeCountry = Mockery::mock(Country::class);
+        $fakeCountry->shouldReceive('getAttribute')->with('name')->andReturn($data['name']);
+
+        // mock data
+        $this->mockCountryRepo
+            ->shouldReceive('createCountry')
+            ->with($data)
+            ->andReturn($fakeCountry);
+
+        // get actual result
+        $result = $this->countryService->create($data);
+
+        // check to array to strip unwanted model relationships
+        $this->assertEquals($fakeCountry->name, $result->name);
+    }
 }

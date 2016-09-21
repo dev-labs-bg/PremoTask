@@ -39,4 +39,17 @@ class CountryService
 
         return $countries;
     }
+
+    /**
+     * Country creation handle
+     *
+     * @param $data - country data
+     * @return Country $country
+     */
+    public function create($data)
+    {
+        $country = $this->countryRepo->createCountry($data);
+
+        return $country;
+    }
 }
