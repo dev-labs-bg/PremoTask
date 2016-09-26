@@ -1,0 +1,8 @@
+# Ignore everything
+*
+# But not these files...
+!.gitignore
+!.htaccess-sample
+!favicon.ico
+!robots.txt
+!index.php
