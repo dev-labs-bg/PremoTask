@@ -92,4 +92,16 @@ class CountryServiceTest extends TestCase
         // check to array to strip unwanted model relationships
         $this->assertEquals($fakeCountry->name, $result->name);
     }
+
+    /**
+     * Test fetch limit
+     */
+    public function testFetch()
+    {
+        // get result
+        $result = $this->countryService->fetch(12);
+
+        // check if limit is working correctly
+        $this->assertCount(12, $result);
+    }
 }

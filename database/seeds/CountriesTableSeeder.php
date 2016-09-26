@@ -13,10 +13,9 @@ class CountriesTableSeeder extends Seeder
     {
         // get instances of classes we need
         $countryService = app(\App\Models\Services\CountryService::class);
-        $countryFetcher = app(\App\APIs\RestCountries\CountryFetcher::class);
 
-        // fetch all contries API
-        $countries = $countryFetcher->getAll();
+        // fetch all countries from API
+        $countries = $countryService->fetch(10);
 
         // save all countries
         foreach ($countries as $country)
