@@ -1,0 +1,11 @@
+# Ignore everything
+/*
+# But not these files...
+!.gitignore
+!.htaccess-sample
+!robots.txt
+!index.php
+
+# Just ignore the images folder. A better practice is to ignore this folder
+# and to generate the compressed resources here.
+!/images/
