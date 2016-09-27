@@ -144,7 +144,4 @@ jspm_packages
 
 ### Project-related ###
 .env
-
 /.idea
-/src/**/*.js
-/src/**/*.js.map
