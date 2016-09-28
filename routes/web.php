@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/get-user/{user_id}', 'ApiController@getUser');
+Route::get('/get-all-users', 'ApiController@getUsers');
+Route::get('/get-all-countries', 'ApiController@getCountries');
