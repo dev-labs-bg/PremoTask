@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { App } from './app';
 import { HeaderComponent } from './header.component';
+import { DashboardComponent } from './dashboard.component';
 
 @NgModule({
     imports: [
@@ -9,7 +10,8 @@ import { HeaderComponent } from './header.component';
     ],
     declarations: [
         App,
-        HeaderComponent
+        HeaderComponent,
+        DashboardComponent
     ],
     bootstrap: [ App ]
 })
