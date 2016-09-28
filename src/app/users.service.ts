@@ -34,7 +34,7 @@ export class UsersService {
         return _.filter(this.users, { country_id: country });
     }
 
-    drawWinners(count:number, time:number, country:number){
+    drawWinners(count:number, country:number){
         this.getAllUsers();
 
         this.usersReceived.subscribe(
