@@ -7,7 +7,8 @@ import { User } from './user';
 
 @Component({
     selector: 'app-user',
-    templateUrl: 'user.component.html'
+    templateUrl: 'user.component.html',
+    styles: [' .clickable { cursor: pointer; } ']
 })
 export class UserComponent implements OnInit, OnDestroy {
     user:User;
