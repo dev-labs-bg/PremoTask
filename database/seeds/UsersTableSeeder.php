@@ -22,7 +22,8 @@ class UsersTableSeeder extends Seeder
         foreach (range(1,100) as $index)
         {
             DB::table('users')->insert([
-                'name' => $faker->name,
+                'first_name' => $faker->firstName,
+                'last_name' => $faker->lastName,
                 'email' => $faker->email,
                 'password' => bcrypt('secret'),
                 'country_id' => rand($countries[0], $countries[count($countries) - 1]),
