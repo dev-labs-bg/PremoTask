@@ -8,12 +8,14 @@ import { HeaderComponent } from './header.component';
 import { DashboardComponent } from './dashboard.component';
 import { HttpService } from "./http.service";
 import { UsersService } from "./users.service";
+import { routing } from "./app.routing";
 
 @NgModule({
     imports: [
         BrowserModule,
         HttpModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        routing
     ],
     declarations: [
         App,

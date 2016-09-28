@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <base href="/">
+
         <meta charset="UTF-8">
         <title>Angular With Webpack</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
