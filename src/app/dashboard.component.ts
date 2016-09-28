@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ) {
         this.form = formBuilder.group({
             'count': [5, Validators.required],
-            'time': [5, Validators.required],
+            'time': [0.1, Validators.required],
             'country': [ALL_COUNTRIES, Validators.required]
         });
     }
@@ -58,11 +58,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
          *
          * Save a reference of this interval in a class property,
          * in order to be able to clear the interval at some point.
-         *
-         * TODO: Left in seconds for testing purposes.
-         * Convert to minuites later on!
          */
-        const duration = +time;
+        const duration = +time * 60; // in minuites
         let timer:number = duration;
         let minutes:number;
         let seconds:number;
