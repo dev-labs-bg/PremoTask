@@ -2,30 +2,39 @@
     <h1>Dashboard</h1>
 </div>
 
-<form>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="col-sm-4">
             <label for="winners-count">Number of winners</label>
             <input
+                formControlName="winners-count"
                 id="winners-count"
                 type="number"
                 class="form-control" />
         </div>
         <div class="col-sm-4">
-            <label for="winners-count">Period of time</label>
+            <label for="time">Period of time</label>
             <div class="input-group">
                 <input
-                    id="winners-count"
+                    formControlName="time"
+                    id="time"
                     type="number"
                     class="form-control" />
                 <span class="input-group-addon">minutes</span>
             </div>
         </div>
         <div class="col-sm-4">
-            <label for="winners-count">Filter by country</label>
-            <select (change)="onCountryChange($event.target.value)" class="form-control">
+            <label for="country">Filter by country</label>
+            <select
+                formControlName="country"
+                id="country"
+                (change)="onCountryChange($event.target.value)"
+                class="form-control">
                 <option value="all" selected>All countries</option>
-                <option *ngFor="let country of countries" value="{{country.id}}">
+                <option
+                    id="country"
+                    *ngFor="let country of countries"
+                    value="{{country.id}}">
                     {{ country.name }}
                 </option>
             </select>
@@ -33,44 +42,48 @@
     </div>
 
     <br />
-
-    <button type="button" class="btn btn-primary btn-lg">Draw winners</button>
-
-    <hr />
-
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h3 class="panel-title">Winners</h3>
-        </div>
-        <div class="panel-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Country</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Borislav Itskov</td>
-                        <td>Bulgaria</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Kaloyan Kosev</td>
-                        <td>Bulgaria</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Goran Stoyanov</td>
-                        <td>Bulgaria</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
+    <button
+        type="submit"
+        class="btn btn-primary btn-lg"
+        [disabled]="!form.valid">
+        Draw winners
+    </button>
 </form>
+
+
+<hr />
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">Winners</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Country</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Borislav Itskov</td>
+                    <td>Bulgaria</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Kaloyan Kosev</td>
+                    <td>Bulgaria</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Goran Stoyanov</td>
+                    <td>Bulgaria</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
