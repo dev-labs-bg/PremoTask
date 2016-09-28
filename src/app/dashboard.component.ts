@@ -13,9 +13,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     countries: { id: number, name: string }[] = [];
     form: FormGroup;
     winners:any = [];
-    counter:number = 0;
+    // Reference to the set interval, so we can clean it afterwards
     drawWinnersInterval:any = null;
     timerText:string = '';
+    // So we can use it in the template
+    ALL_COUNTRIES:number = ALL_COUNTRIES;
 
     constructor(
         private httpService: HttpService,
