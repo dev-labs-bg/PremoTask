@@ -78,4 +78,13 @@ export class UsersService {
             }
         );
     }
+
+    /**
+     * Get a single user details, by his id.
+     *
+     * @param {number} id - user id
+     */
+    getUserDetails(id:number){
+        return _.find(this.users, { id })
+    }
 }
