@@ -67,7 +67,7 @@
         <h3 class="panel-title">Winners</h3>
     </div>
     <div class="panel-body">
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>#</th>
@@ -77,7 +77,10 @@
             </thead>
 
             <tbody>
-                <tr *ngFor="let user of winners; let i = index">
+                <tr
+                    *ngFor="let user of winners; let i = index"
+                    (click)="goToUserDetails(user.id)"
+                    class="clickable">
                     <td>{{ i + 1 }}</td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.country_id }}</td>

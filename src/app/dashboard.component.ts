@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
 
 import { ALL_COUNTRIES } from './constants';
 import { UsersService } from './users.service';
 import { HttpService } from "./http.service";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: 'dashboard.component.html'
+    selector: 'app-dashboard',
+    templateUrl: 'dashboard.component.html',
+    styles: [' .clickable { cursor: pointer; } ']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     countries: { id: number, name: string }[] = [];
@@ -22,7 +24,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     constructor(
         private httpService: HttpService,
         private formBuilder: FormBuilder,
-        private usersService: UsersService
+        private usersService: UsersService,
+        private router: Router
     ) {
         this.form = formBuilder.group({
             'count': [5, Validators.required],
@@ -92,6 +95,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         clearInterval(this.drawWinnersInterval);
         this.drawWinnersInterval = null;
         this.timerText = '';
+    }
+
+    goToUserDetails(userId:string){
+        this.router.navigate(['/user', userId]);
     }
 
     /**
