@@ -7,12 +7,13 @@ var _ = require('lodash');
 
 import { ALL_COUNTRIES } from './constants';
 import { HttpService } from "./http.service";
+import { User } from './user';
 
 @Injectable()
 export class UsersService {
-    users:any = [];
+    users:User[] = [];
     usersReceived = new EventEmitter();
-    winners:any = [];
+    winners:User[] = [];
     newWinnersDrawn = new EventEmitter();
 
     constructor(
@@ -21,7 +22,7 @@ export class UsersService {
 
     private fetchAllUsers() {
         this.httpService.getData('get-all-users').subscribe(
-            users => {
+            (users:User[]) => {
                 this.users = users;
 
                 this.usersReceived.emit();
@@ -77,5 +78,14 @@ export class UsersService {
                 this.newWinnersDrawn.emit(this.winners);
             }
         );
+    }
+
+    /**
+     * Get a single user details, by his id.
+     *
+     * @param {number} id - user id
+     */
+    getUserDetails(id:number){
+        return _.find(this.users, { id })
     }
 }

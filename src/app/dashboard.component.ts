@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { ALL_COUNTRIES } from './constants';
 import { UsersService } from './users.service';
 import { HttpService } from "./http.service";
+import { User } from './user';
 
 @Component({
     selector: 'app-dashboard',
@@ -14,7 +15,7 @@ import { HttpService } from "./http.service";
 export class DashboardComponent implements OnInit, OnDestroy {
     countries: { id: number, name: string }[] = [];
     form: FormGroup;
-    winners:any = [];
+    winners:User[] = [];
     // Reference to the set interval, so we can clean it afterwards
     drawWinnersInterval:any = null;
     timerText:string = '';
@@ -42,9 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         )
 
         this.usersService.newWinnersDrawn.subscribe(
-            (nextWinners:any) => {
-                this.winners = nextWinners
-            }
+            (nextWinners:User[]) => this.winners = nextWinners
         );
     }
 
