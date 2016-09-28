@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     winners:any = [];
     counter:number = 0;
     drawWinnersInterval:any = null;
+    timerText:string = '';
 
     constructor(
         private httpService: HttpService,
@@ -50,15 +51,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
         /**
          * ... then, turn an interval on,
          * that picks new winners on every {{ time }} minutes.
+         *
+         * Do a second-based interval,
+         * in order to show a counter per second about how mich time is left,
+         * http://stackoverflow.com/a/20618517/1333836
+         *
          * Save a reference of this interval in a class property,
          * in order to be able to clear the interval at some point.
          *
          * TODO: Left in seconds for testing purposes.
          * Convert to minuites later on!
          */
+        const duration = +time;
+        let timer:number = duration;
+        let minutes:number;
+        let seconds:number;
+
         this.drawWinnersInterval = setInterval( () => {
-            this.usersService.drawWinners(+count, +country);
-        }, time * 1000);
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            if (minutes === 0 && seconds === 0) {
+                this.timerText = '';
+            } else if (minutes === 0) {
+                this.timerText = `${seconds} seconds`;
+            } else {
+                this.timerText = `${minutes} minuites and ${seconds} seconds`;
+            }
+
+            if (--timer < 0) {
+                timer = duration;
+                this.usersService.drawWinners(+count, +country);
+            }
+        }, 1000);
     }
 
     /**
@@ -67,6 +92,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     onDrawingWinnersStop(){
         clearInterval(this.drawWinnersInterval);
         this.drawWinnersInterval = null;
+        this.timerText = '';
     }
 
     /**
