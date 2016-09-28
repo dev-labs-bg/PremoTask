@@ -7,6 +7,7 @@ import { App } from './app';
 import { HeaderComponent } from './header.component';
 import { DashboardComponent } from './dashboard.component';
 import { HttpService } from "./http.service";
+import { UsersService } from "./users.service";
 
 @NgModule({
     imports: [
@@ -20,6 +21,6 @@ import { HttpService } from "./http.service";
         DashboardComponent
     ],
     bootstrap: [ App ],
-    providers: [ HttpService ]
+    providers: [ HttpService, UsersService ]
 })
 export class AppModule { }
