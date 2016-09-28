@@ -39,7 +39,8 @@ class UserRepositoryTest extends TestCase
         foreach (range(1,10) as $index)
         {
             DB::table('users')->insert([
-                'name' => $this->faker->name,
+                'first_name' => $this->faker->firstName,
+                'last_name' => $this->faker->lastName,
                 'email' => $this->faker->email,
                 'password' => bcrypt('secret'),
                 'created_at' => new \DateTime(),
@@ -62,7 +63,8 @@ class UserRepositoryTest extends TestCase
     {
         // Create and save a record to the DB
         $user = $this->userRepository->make([
-            'name' => 'test-name',
+            'first_name' => 'test-first-name',
+            'last_name' => 'test-last-name',
             'email' => 'test@example.com',
             'password' => '123123',
         ]);
@@ -72,7 +74,7 @@ class UserRepositoryTest extends TestCase
         // Get the user from DB with the getById method
         $userFromDb = $this->userRepository->getById($user->id);
         // Make sure the user the proper name and email
-        $this->assertEquals('test-name', $userFromDb->name);
+        $this->assertEquals('test-first-name', $userFromDb->first_name);
         $this->assertEquals('test@example.com', $userFromDb->email);
     }
 
