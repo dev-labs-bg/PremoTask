@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from "rxjs/Rx";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { UsersService } from './users.service';
 import { User } from './user';
@@ -16,7 +16,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
     constructor(
         private usersService: UsersService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) { }
 
     ngOnInit(){
@@ -28,6 +29,10 @@ export class UserComponent implements OnInit, OnDestroy {
                 }
             }
         )
+    }
+
+    navigateBack() {
+        this.router.navigate(['../']);
     }
 
     // Clean-up when the component is unmounted to prevent memory leaks
