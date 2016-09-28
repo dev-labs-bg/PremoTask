@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 
+import { ALL_COUNTRIES } from './constants';
+import { UsersService } from './users.service';
 import { HttpService } from "./http.service";
 
 @Component({
@@ -10,15 +12,17 @@ import { HttpService } from "./http.service";
 export class DashboardComponent implements OnInit {
     countries: { id: number, name: string }[] = [];
     form: FormGroup;
+    winners:any = [];
 
     constructor(
         private httpService: HttpService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private usersService: UsersService
     ) {
         this.form = formBuilder.group({
-            'winners-count': ['', Validators.required],
-            'time': ['', Validators.required],
-            'country': ['all', Validators.required]
+            'count': [5, Validators.required],
+            'time': [5, Validators.required],
+            'country': [ALL_COUNTRIES, Validators.required]
         });
     }
 
@@ -28,13 +32,16 @@ export class DashboardComponent implements OnInit {
                 this.countries = data;
             }
         )
-    }
 
-    onCountryChange(newCountry:string){
-        console.log(newCountry);
+        this.usersService.newWinnersDrawn.subscribe(
+            (nextWinners:any) => {
+                this.winners = nextWinners
+            }
+        );
     }
 
     onSubmit(){
-        console.log(this.form);
+        const { count, time, country } = this.form.value;
+        this.usersService.drawWinners(count, time, +country);
     }
 }

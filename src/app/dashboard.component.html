@@ -5,10 +5,10 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="col-sm-4">
-            <label for="winners-count">Number of winners</label>
+            <label for="count">Number of winners</label>
             <input
-                formControlName="winners-count"
-                id="winners-count"
+                formControlName="count"
+                id="count"
                 type="number"
                 class="form-control" />
         </div>
@@ -28,9 +28,8 @@
             <select
                 formControlName="country"
                 id="country"
-                (change)="onCountryChange($event.target.value)"
                 class="form-control">
-                <option value="all" selected>All countries</option>
+                <option value="0" selected>All countries</option>
                 <option
                     id="country"
                     *ngFor="let country of countries"
@@ -50,7 +49,6 @@
     </button>
 </form>
 
-
 <hr />
 
 <div class="panel panel-success">
@@ -68,20 +66,10 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Borislav Itskov</td>
-                    <td>Bulgaria</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Kaloyan Kosev</td>
-                    <td>Bulgaria</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Goran Stoyanov</td>
-                    <td>Bulgaria</td>
+                <tr *ngFor="let user of winners; let i = index">
+                    <td>{{ i }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.country_id }}</td>
                 </tr>
             </tbody>
         </table>
