@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard.component';
 import { UserComponent } from './user.component';
 import { HttpService } from "./http.service";
 import { UsersService } from "./users.service";
+import { CountryService } from "./country.service";
 import { routing } from "./app.routing";
 
 @NgModule({
@@ -25,6 +26,6 @@ import { routing } from "./app.routing";
         UserComponent
     ],
     bootstrap: [ App ],
-    providers: [ HttpService, UsersService ]
+    providers: [ HttpService, UsersService, CountryService ]
 })
 export class AppModule { }

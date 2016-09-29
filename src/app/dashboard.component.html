@@ -113,7 +113,7 @@
                     class="clickable">
                     <td>{{ i + 1 }}</td>
                     <td>{{ user.first_name }} {{ user.last_name }}</td>
-                    <td>{{ user.country_id }}</td>
+                    <td>{{ countryService.getCountryName(user.country_id) }}</td>
                 </tr>
             </tbody>
         </table>

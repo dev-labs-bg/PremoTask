@@ -4,8 +4,10 @@ import { Router } from "@angular/router";
 
 import { ALL_COUNTRIES, PERIOD_OF_TIME_LIMIT } from './constants';
 import { UsersService } from './users.service';
+import { CountryService } from './country.service';
 import { HttpService } from "./http.service";
 import { User } from './user';
+import { Country } from './country';
 
 @Component({
     selector: 'app-dashboard',
@@ -13,7 +15,7 @@ import { User } from './user';
     styles: [' .clickable { cursor: pointer; } ']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-    countries: { id: number, name: string }[] = [];
+    countries:Country[] = [];
     form: FormGroup;
     winners:User[] = [];
     // Reference to the set interval, so we can clean it afterwards
@@ -27,6 +29,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private httpService: HttpService,
         private formBuilder: FormBuilder,
         private usersService: UsersService,
+        private countryService: CountryService,
         private router: Router
     ) {
         this.form = formBuilder.group({
@@ -73,11 +76,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.httpService.getData('get-all-countries').subscribe(
-            (data:any) => {
-                this.countries = data;
+        this.countryService.allCountriesReceived.subscribe(
+            (countries:Country[]) => {
+                this.countries = countries;
             }
-        )
+        );
 
         this.usersService.newWinnersDrawn.subscribe(
             (nextWinners:User[]) => {

@@ -3,6 +3,7 @@ import { Subscription } from "rxjs/Rx";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { UsersService } from './users.service';
+import { CountryService } from './country.service';
 import { User } from './user';
 
 @Component({
@@ -17,6 +18,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
     constructor(
         private usersService: UsersService,
+        private countryService: CountryService,
         private route: ActivatedRoute,
         private router: Router
     ) { }

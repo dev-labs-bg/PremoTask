@@ -19,7 +19,7 @@
             <p>
                 First name: {{ user.first_name }}<br />
                 Last name: {{ user.last_name }}<br />
-                Country: {{ user.country_id }}<br />
+                Country: {{ countryService.getCountryName(user.country_id) }}<br />
                 E-mail: {{ user.email }}
             </p>
         </div>
