@@ -29,6 +29,8 @@ export class CountryService {
      * @param {number} id - user id
      */
     getCountryName(id:number){
-        return _.find(this.countries, { id })
+        const country = _.find(this.countries, { id });
+
+        return country ? country.name : '-';
     }
 }
