@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "Test Development environment - Sales Promotions",
   "scripts": {
-    "watch": "webpack --watch --colors --devtool #sourcemap",
+    "watch": "webpack -d --watch --colors",
     "test": "karma start",
-    "build": "rimraf dist && webpack --config config-js/webpack.prod.js --progress --profile --bail",
-    "postinstall": "typings install"
+    "build": "webpack -p --config config-js/webpack.prod.js --progress --profile --bail"
   },
   "license": "MIT",
   "dependencies": {
@@ -41,7 +40,6 @@
     "null-loader": "^0.1.1",
     "phantomjs-prebuilt": "^2.1.7",
     "raw-loader": "^0.5.1",
-    "rimraf": "^2.5.2",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.1",
     "typescript": "^2.0.2",
