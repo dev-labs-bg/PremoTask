@@ -125,7 +125,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.timerText = `${minutes} minuites and ${seconds} seconds`;
             }
 
-            if ((timer - 1) > 0) {
+            if ((timer - 1) >= 0) {
                 timer--;
             } else {
                 this.usersService.drawWinners(+country);
