@@ -15,10 +15,24 @@ export class UsersService {
     usersReceived = new EventEmitter();
     winners:User[] = [];
     newWinnersDrawn = new EventEmitter();
+    country:number;
 
     constructor(
         private httpService: HttpService
-    ) { }
+    ) {
+        this.usersReceived.subscribe(
+            () => {
+                console.log('users received!');
+                const nextWinner = this.getRandomWinners(
+                    this.getAllUsersByCountry(this.country)
+                );
+                this.winners.push(nextWinner);
+
+                console.info('users received!', nextWinner, this.winners);
+                this.newWinnersDrawn.emit(this.winners);
+            }
+        );
+    }
 
     private fetchAllUsers() {
         this.httpService.getData('get-all-users').subscribe(
@@ -28,18 +42,6 @@ export class UsersService {
                 this.usersReceived.emit();
             }
         );
-    }
-
-    /**
-     * Trigger all users fetch,
-     * only if the current users array is empty.
-     */
-    private getAllUsers(){
-        if (! this.users.length) {
-            this.fetchAllUsers();
-        } else {
-            this.usersReceived.emit();
-        }
     }
 
     /**
@@ -60,24 +62,23 @@ export class UsersService {
      * https://lodash.com/docs/4.16.2#sampleSize
      *
      * @param {any}    users - filtered users // TODO: type!
-     * @param {number} count - the size of the random collection
      */
-    private getRandomWinners(users:any, count:number) {
-        return _.sampleSize(users, count);
+    private getRandomWinners(users:any) {
+        return _.sample(users);
     }
 
-    drawWinners(count:number, country:number){
-        this.getAllUsers();
+    drawWinners(country:number){
+        this.country = country;
 
-        this.usersReceived.subscribe(
-            () => {
-                this.winners = this.getRandomWinners(
-                    this.getAllUsersByCountry(country), count
-                );
-
-                this.newWinnersDrawn.emit(this.winners);
-            }
-        );
+        /**
+         * Trigger all users fetch,
+         * only if the current users array is empty.
+         */
+        if (! this.users.length) {
+            this.fetchAllUsers();
+        } else {
+            this.usersReceived.emit();
+        }
     }
 
     /**
