@@ -11,10 +11,14 @@ import { User } from './user';
 
 @Injectable()
 export class UsersService {
+    // full users list
     users:User[] = [];
+    // remaining users, that haven't been picked yet
+    private remainingUsers:User[] = [];
     winners:User[] = [];
     newWinnersDrawn = new EventEmitter();
     usersReceived = new EventEmitter();
+    originalUsersCount:number;
     private country:number;
 
     constructor(
@@ -33,13 +37,20 @@ export class UsersService {
         );
         this.winners.push(nextWinner);
 
+        // Remote the just picked winner, so we can't pick the same twice
+        _.remove(this.remainingUsers, { id: nextWinner.id });
+
         this.newWinnersDrawn.emit(this.winners);
     }
 
     private fetchAllUsers() {
         this.httpService.getData('get-all-users').subscribe(
             (users:User[]) => {
-                this.users = users;
+                // Copy the actuals array, to prevent changing them by reference
+                this.users = users.slice(0);
+                this.remainingUsers = users.slice(0);
+
+                this.originalUsersCount = users.length;
 
                 this.usersReceived.emit();
             }
@@ -53,10 +64,10 @@ export class UsersService {
      */
     private getAllUsersByCountry(country:number){
         if (country === ALL_COUNTRIES) {
-            return this.users;
+            return this.remainingUsers;
         }
 
-        return _.filter(this.users, { country_id: country });
+        return _.filter(this.remainingUsers, { country_id: country });
     }
 
     /**
