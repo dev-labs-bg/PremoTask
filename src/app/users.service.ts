@@ -22,13 +22,11 @@ export class UsersService {
     ) {
         this.usersReceived.subscribe(
             () => {
-                console.log('users received!');
                 const nextWinner = this.getRandomWinners(
                     this.getAllUsersByCountry(this.country)
                 );
                 this.winners.push(nextWinner);
 
-                console.info('users received!', nextWinner, this.winners);
                 this.newWinnersDrawn.emit(this.winners);
             }
         );
