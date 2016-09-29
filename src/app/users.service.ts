@@ -12,24 +12,30 @@ import { User } from './user';
 @Injectable()
 export class UsersService {
     users:User[] = [];
-    usersReceived = new EventEmitter();
     winners:User[] = [];
     newWinnersDrawn = new EventEmitter();
-    country:number;
+    private usersReceived = new EventEmitter();
+    private country:number;
 
     constructor(
         private httpService: HttpService
     ) {
         this.usersReceived.subscribe(
-            () => {
-                const nextWinner = this.getRandomWinners(
-                    this.getAllUsersByCountry(this.country)
-                );
-                this.winners.push(nextWinner);
-
-                this.newWinnersDrawn.emit(this.winners);
-            }
+            () => this.drawSingleUser()
         );
+    }
+
+    /**
+     * Draws a sngle user in the winners array
+     * and emits an event.
+     */
+    private drawSingleUser(){
+        const nextWinner = this.getRandomWinners(
+            this.getAllUsersByCountry(this.country)
+        );
+        this.winners.push(nextWinner);
+
+        this.newWinnersDrawn.emit(this.winners);
     }
 
     private fetchAllUsers() {
@@ -59,9 +65,9 @@ export class UsersService {
      * Get random users (winners), using lodash's sampleSize method,
      * https://lodash.com/docs/4.16.2#sampleSize
      *
-     * @param {any}    users - filtered users // TODO: type!
+     * @param {User[]}    users - filtered users
      */
-    private getRandomWinners(users:any) {
+    private getRandomWinners(users:User[]) {
         return _.sample(users);
     }
 
@@ -71,11 +77,12 @@ export class UsersService {
         /**
          * Trigger all users fetch,
          * only if the current users array is empty.
+         * The fetch itself triggers drawSingleUser on success.
          */
         if (! this.users.length) {
             this.fetchAllUsers();
         } else {
-            this.usersReceived.emit();
+            this.drawSingleUser();
         }
     }
 
