@@ -14,15 +14,13 @@ export class UsersService {
     users:User[] = [];
     winners:User[] = [];
     newWinnersDrawn = new EventEmitter();
-    private usersReceived = new EventEmitter();
+    usersReceived = new EventEmitter();
     private country:number;
 
     constructor(
         private httpService: HttpService
     ) {
-        this.usersReceived.subscribe(
-            () => this.drawSingleUser()
-        );
+
     }
 
     /**
@@ -71,6 +69,12 @@ export class UsersService {
         return _.sample(users);
     }
 
+    fetchAllUsersIfNeeded(){
+        if (! this.users.length) {
+            this.fetchAllUsers();
+        }
+    }
+
     drawWinners(country:number){
         this.country = country;
 
@@ -81,6 +85,9 @@ export class UsersService {
          */
         if (! this.users.length) {
             this.fetchAllUsers();
+            this.usersReceived.subscribe(
+                () => this.drawSingleUser()
+            );
         } else {
             this.drawSingleUser();
         }

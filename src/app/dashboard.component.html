@@ -53,7 +53,7 @@
                 <option value="{{ ALL_COUNTRIES }}" selected>All countries</option>
                 <option
                     id="country"
-                    *ngFor="let country of countries"
+                    *ngFor="let country of countryService.countries"
                     value="{{country.id}}">
                     {{ country.name }}
                 </option>
