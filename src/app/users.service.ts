@@ -23,9 +23,7 @@ export class UsersService {
 
     constructor(
         private httpService: HttpService
-    ) {
-
-    }
+    ) { }
 
     /**
      * Draws a sngle user in the winners array
@@ -113,7 +111,7 @@ export class UsersService {
 
     cleanWinnersList(){
         this.winners.length = 0;
-        this.remainingUsers.length = 0;
+        this.remainingUsers = this.users.slice(0);
     }
 
     /**
