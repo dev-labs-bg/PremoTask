@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import 'rxjs/Rx';
 import { Observable } from "rxjs/Rx";
 
-// TODO: By some strange reason we can't use ES6 import here. Find out why.
+// By some strange reason we can't use ES6 import here.
 var _ = require('lodash');
 
 import { ALL_COUNTRIES } from './constants';
