@@ -81,6 +81,10 @@ export class UsersService {
         }
     }
 
+    cleanWinnersList(){
+        this.winners.length = 0;
+    }
+
     /**
      * Get a single user details, by his id.
      *

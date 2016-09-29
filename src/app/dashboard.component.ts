@@ -85,6 +85,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.allUsersCount = this.usersService.users.length;
             }
         );
+
+        this.winners = this.usersService.winners;
     }
 
     onSubmit(){
@@ -143,7 +145,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     onDrawingWinnersStop(){
         clearInterval(this.drawWinnersInterval);
         this.drawWinnersInterval = null;
+
         this.timerText = '';
+    }
+
+    onCleanWinnersList(){
+        this.usersService.cleanWinnersList();
     }
 
     goToUserDetails(userId:string){

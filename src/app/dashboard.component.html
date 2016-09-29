@@ -67,7 +67,7 @@
         class="btn btn-primary btn-lg"
         [disabled]="!form.valid"
         *ngIf="drawWinnersInterval === null">
-        Draw winners
+        Draw Winners
     </button>
 
     <button
@@ -76,6 +76,14 @@
         *ngIf="drawWinnersInterval"
         (click)="onDrawingWinnersStop()">
         Stop Drawing Winners
+    </button>
+
+    <button
+        type="button"
+        class="btn btn-default btn-lg"
+        *ngIf="winners.length && drawWinnersInterval === null"
+        (click)="onCleanWinnersList()">
+        Clean Winners List
     </button>
 
 </form>
