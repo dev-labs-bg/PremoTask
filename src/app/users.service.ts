@@ -12,13 +12,31 @@ import { User } from './user';
 @Injectable()
 export class UsersService {
     users:User[] = [];
-    usersReceived = new EventEmitter();
     winners:User[] = [];
     newWinnersDrawn = new EventEmitter();
+    private usersReceived = new EventEmitter();
+    private country:number;
 
     constructor(
         private httpService: HttpService
-    ) { }
+    ) {
+        this.usersReceived.subscribe(
+            () => this.drawSingleUser()
+        );
+    }
+
+    /**
+     * Draws a sngle user in the winners array
+     * and emits an event.
+     */
+    private drawSingleUser(){
+        const nextWinner = this.getRandomWinners(
+            this.getAllUsersByCountry(this.country)
+        );
+        this.winners.push(nextWinner);
+
+        this.newWinnersDrawn.emit(this.winners);
+    }
 
     private fetchAllUsers() {
         this.httpService.getData('get-all-users').subscribe(
@@ -28,18 +46,6 @@ export class UsersService {
                 this.usersReceived.emit();
             }
         );
-    }
-
-    /**
-     * Trigger all users fetch,
-     * only if the current users array is empty.
-     */
-    private getAllUsers(){
-        if (! this.users.length) {
-            this.fetchAllUsers();
-        } else {
-            this.usersReceived.emit();
-        }
     }
 
     /**
@@ -59,25 +65,29 @@ export class UsersService {
      * Get random users (winners), using lodash's sampleSize method,
      * https://lodash.com/docs/4.16.2#sampleSize
      *
-     * @param {any}    users - filtered users // TODO: type!
-     * @param {number} count - the size of the random collection
+     * @param {User[]}    users - filtered users
      */
-    private getRandomWinners(users:any, count:number) {
-        return _.sampleSize(users, count);
+    private getRandomWinners(users:User[]) {
+        return _.sample(users);
     }
 
-    drawWinners(count:number, country:number){
-        this.getAllUsers();
+    drawWinners(country:number){
+        this.country = country;
 
-        this.usersReceived.subscribe(
-            () => {
-                this.winners = this.getRandomWinners(
-                    this.getAllUsersByCountry(country), count
-                );
+        /**
+         * Trigger all users fetch,
+         * only if the current users array is empty.
+         * The fetch itself triggers drawSingleUser on success.
+         */
+        if (! this.users.length) {
+            this.fetchAllUsers();
+        } else {
+            this.drawSingleUser();
+        }
+    }
 
-                this.newWinnersDrawn.emit(this.winners);
-            }
-        );
+    cleanWinnersList(){
+        this.winners.length = 0;
     }
 
     /**
