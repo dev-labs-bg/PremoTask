@@ -7,7 +7,6 @@ import { UsersService } from './users.service';
 import { CountryService } from './country.service';
 import { HttpService } from "./http.service";
 import { User } from './user';
-import { Country } from './country';
 
 @Component({
     selector: 'app-dashboard',
@@ -15,7 +14,6 @@ import { Country } from './country';
     styles: [' .clickable { cursor: pointer; } ']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-    countries:Country[] = [];
     form: FormGroup;
     winners:User[] = [];
     // Reference to the set interval, so we can clean it afterwards
@@ -76,12 +74,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.countryService.allCountriesReceived.subscribe(
-            (countries:Country[]) => {
-                this.countries = countries;
-            }
-        );
-
         this.usersService.newWinnersDrawn.subscribe(
             (nextWinners:User[]) => {
                 this.winners = nextWinners;

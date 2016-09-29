@@ -9,12 +9,20 @@ import { Country } from './country';
 
 @Injectable()
 export class CountryService {
-    countries:Country[];
+    countries:Country[] = [];
     allCountriesReceived = new EventEmitter();
 
     constructor(
         private httpService: HttpService
     ) {
+        this.fetchCountriesIfNeeded();
+    }
+
+    fetchCountriesIfNeeded(){
+        if (this.countries.length) {
+            return false;
+        }
+
         this.httpService.getData('get-all-countries').subscribe(
             (data:any) => {
                 this.countries = data;
