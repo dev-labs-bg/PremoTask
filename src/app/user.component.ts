@@ -24,12 +24,18 @@ export class UserComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(){
+        this.usersService.fetchAllUsersIfNeeded();
+
         this.subscription = this.route.params.subscribe(
             (params:any) => {
-                if (params.hasOwnProperty('id')) {
-                    const userId = +params['id'];
-                    this.user = this.usersService.getUserDetails(userId);
-                }
+                this.usersService.usersReceived.subscribe(
+                    () => {
+                         if (params.hasOwnProperty('id')) {
+                            const userId = +params['id'];
+                            this.user = this.usersService.getUserDetails(userId);
+                        }
+                    }
+                )
             }
         )
     }
