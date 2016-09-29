@@ -75,6 +75,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.usersService.newWinnersDrawn.subscribe(
             (nextWinners:User[]) => {
+                /**
+                 * In case all people by a single country are chosen,
+                 * stop the drawing.
+                 */
+                if (this.winners.length === nextWinners.length) {
+                    this.onDrawingWinnersStop();
+                }
+
                 this.winners = nextWinners;
             }
         );

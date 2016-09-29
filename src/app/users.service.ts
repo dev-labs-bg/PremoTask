@@ -32,6 +32,14 @@ export class UsersService {
      * and emits an event.
      */
     private drawSingleUser(){
+        const usersByCountry = this.getAllUsersByCountry(this.country);
+
+        // If there are no remaining users - return the same winners
+        if (usersByCountry.length === 0) {
+            this.newWinnersDrawn.emit(this.winners);
+            return false;
+        }
+
         const nextWinner = this.getRandomWinners(
             this.getAllUsersByCountry(this.country)
         );
@@ -106,6 +114,7 @@ export class UsersService {
 
     cleanWinnersList(){
         this.winners.length = 0;
+        this.remainingUsers.length = 0;
     }
 
     /**
