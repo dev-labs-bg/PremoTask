@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const { count, time, country } = this.form.value;
 
         // Immediately draw the first winners...
-        this.usersService.drawWinners(+count, +country);
+        this.usersService.drawWinners(+country);
         /**
          * ... then, turn an interval on,
          * that picks new winners on every {{ time }} minutes.
@@ -107,10 +107,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         let timer:number = duration;
         let minutes:number;
         let seconds:number;
+        let remainingWinnersQuota:number = +count - 1 // first pick was already made
 
         this.drawWinnersInterval = setInterval( () => {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
+            if (remainingWinnersQuota === 0) {
+                this.onDrawingWinnersStop();
+            }
+
+            minutes = Math.round(timer / 60);
+            seconds = Math.round(timer % 60);
 
             if (minutes === 0 && seconds === 0) {
                 this.timerText = '';
@@ -120,9 +125,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.timerText = `${minutes} minuites and ${seconds} seconds`;
             }
 
-            if (--timer < 0) {
+            if ((timer - 1) > 0) {
+                timer--;
+            } else {
+                this.usersService.drawWinners(+country);
+
+                // Reset timer for the next pick
+                remainingWinnersQuota--;
                 timer = duration;
-                this.usersService.drawWinners(+count, +country);
             }
         }, 1000);
     }
