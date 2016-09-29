@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 
-import { ALL_COUNTRIES } from './constants';
+import { ALL_COUNTRIES, PERIOD_OF_TIME_LIMIT } from './constants';
 import { UsersService } from './users.service';
 import { HttpService } from "./http.service";
 import { User } from './user';
@@ -50,13 +50,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     validatorLessThenReasonableTimeLimit(control: FormControl){
-        // 14400 minutes = 10 days
-        if (+control.value > 14400) {
+        if (DashboardComponent.moreThenTimeLimit(control.value)) {
             // validation fails
             return { notLessThenJavaScriptNumberLimit: true }
         }
 
         return null;
+    }
+
+    /**
+     * Static, so it is accessible via the custom validators,
+     * that lack an access to the `this` class closure.
+     */
+    static moreThenTimeLimit(value:number){
+        return +value > PERIOD_OF_TIME_LIMIT;
+    }
+
+    // So we can use it in the template
+    timeLimitReached(value:number) {
+        return DashboardComponent.moreThenTimeLimit(value);
     }
 
     ngOnInit() {
