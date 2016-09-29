@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 
 import { ALL_COUNTRIES } from './constants';
@@ -29,10 +29,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private router: Router
     ) {
         this.form = formBuilder.group({
-            'count': [5, Validators.required],
-            'time': [0.1, Validators.required],
+            'count': ['', this.validatorGreaterThenZero],
+            'time': [
+                0.1, Validators.compose([
+                    this.validatorLessThenReasonableTimeLimit,
+                    this.validatorGreaterThenZero
+                ])
+            ],
             'country': [ALL_COUNTRIES, Validators.required]
         });
+    }
+
+    validatorGreaterThenZero(control: FormControl){
+        if (+control.value <= 0) {
+            // validation fails
+            return { notGreaterThenZero: true }
+        }
+
+        return null;
+    }
+
+    validatorLessThenReasonableTimeLimit(control: FormControl){
+        // 14400 minutes = 10 days
+        if (+control.value > 14400) {
+            // validation fails
+            return { notLessThenJavaScriptNumberLimit: true }
+        }
+
+        return null;
     }
 
     ngOnInit() {
