@@ -11,14 +11,10 @@ import { User } from './user';
 
 @Injectable()
 export class UsersService {
-    // full users list
     users:User[] = [];
-    // remaining users, that haven't been picked yet
-    private remainingUsers:User[] = [];
     winners:User[] = [];
     newWinnersDrawn = new EventEmitter();
     usersReceived = new EventEmitter();
-    originalUsersCount:number;
     private country:number;
 
     constructor(
@@ -32,21 +28,10 @@ export class UsersService {
      * and emits an event.
      */
     private drawSingleUser(){
-        const usersByCountry = this.getAllUsersByCountry(this.country);
-
-        // If there are no remaining users - return the same winners
-        if (usersByCountry.length === 0) {
-            this.newWinnersDrawn.emit(this.winners);
-            return false;
-        }
-
         const nextWinner = this.getRandomWinners(
             this.getAllUsersByCountry(this.country)
         );
         this.winners.push(nextWinner);
-
-        // Remote the just picked winner, so we can't pick the same twice
-        _.remove(this.remainingUsers, { id: nextWinner.id });
 
         this.newWinnersDrawn.emit(this.winners);
     }
@@ -54,11 +39,7 @@ export class UsersService {
     private fetchAllUsers() {
         this.httpService.getData('get-all-users').subscribe(
             (users:User[]) => {
-                // Copy the actuals array, to prevent changing them by reference
-                this.users = users.slice(0);
-                this.remainingUsers = users.slice(0);
-
-                this.originalUsersCount = users.length;
+                this.users = users;
 
                 this.usersReceived.emit();
             }
@@ -72,10 +53,10 @@ export class UsersService {
      */
     private getAllUsersByCountry(country:number){
         if (country === ALL_COUNTRIES) {
-            return this.remainingUsers;
+            return this.users;
         }
 
-        return _.filter(this.remainingUsers, { country_id: country });
+        return _.filter(this.users, { country_id: country });
     }
 
     /**
@@ -114,7 +95,6 @@ export class UsersService {
 
     cleanWinnersList(){
         this.winners.length = 0;
-        this.remainingUsers.length = 0;
     }
 
     /**

@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // Reference to the set interval, so we can clean it afterwards
     drawWinnersInterval:any = null;
     timerText:string = '';
+    allUsersCount:number;
     // So we can use it in the template
     ALL_COUNTRIES:number = ALL_COUNTRIES;
 
@@ -75,15 +76,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.usersService.newWinnersDrawn.subscribe(
             (nextWinners:User[]) => {
-                /**
-                 * In case all people by a single country are chosen,
-                 * stop the drawing.
-                 */
-                if (this.winners.length === nextWinners.length) {
-                    this.onDrawingWinnersStop();
-                }
-
                 this.winners = nextWinners;
+                this.allUsersCount = this.usersService.users.length;
             }
         );
 
