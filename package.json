@@ -5,8 +5,7 @@
   "scripts": {
     "watch": "webpack -d --watch --colors",
     "test": "karma start",
-    "build": "webpack -p --config config-js/webpack.prod.js --progress --profile --bail",
-    "postinstall": "typings install"
+    "build": "webpack -p --config config-js/webpack.prod.js --progress --profile --bail"
   },
   "license": "MIT",
   "dependencies": {
