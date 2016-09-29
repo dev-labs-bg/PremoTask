@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import { FormBuilder, Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 
-import { ALL_COUNTRIES } from './constants';
+import { ALL_COUNTRIES, PERIOD_OF_TIME_LIMIT } from './constants';
 import { UsersService } from './users.service';
 import { HttpService } from "./http.service";
 import { User } from './user';
@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // Reference to the set interval, so we can clean it afterwards
     drawWinnersInterval:any = null;
     timerText:string = '';
+    allUsersCount:number;
     // So we can use it in the template
     ALL_COUNTRIES:number = ALL_COUNTRIES;
 
@@ -29,10 +30,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private router: Router
     ) {
         this.form = formBuilder.group({
-            'count': [5, Validators.required],
-            'time': [0.1, Validators.required],
+            'count': ['', this.validatorGreaterThenZero],
+            'time': [
+                0.1, Validators.compose([
+                    this.validatorLessThenReasonableTimeLimit,
+                    this.validatorGreaterThenZero
+                ])
+            ],
             'country': [ALL_COUNTRIES, Validators.required]
         });
+    }
+
+    validatorGreaterThenZero(control: FormControl){
+        if (+control.value <= 0) {
+            // validation fails
+            return { notGreaterThenZero: true }
+        }
+
+        return null;
+    }
+
+    validatorLessThenReasonableTimeLimit(control: FormControl){
+        if (DashboardComponent.moreThenTimeLimit(control.value)) {
+            // validation fails
+            return { notLessThenJavaScriptNumberLimit: true }
+        }
+
+        return null;
+    }
+
+    /**
+     * Static, so it is accessible via the custom validators,
+     * that lack an access to the `this` class closure.
+     */
+    static moreThenTimeLimit(value:number){
+        return +value > PERIOD_OF_TIME_LIMIT;
+    }
+
+    // So we can use it in the template
+    timeLimitReached(value:number) {
+        return DashboardComponent.moreThenTimeLimit(value);
     }
 
     ngOnInit() {
@@ -43,7 +80,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         )
 
         this.usersService.newWinnersDrawn.subscribe(
-            (nextWinners:User[]) => this.winners = nextWinners
+            (nextWinners:User[]) => {
+                this.winners = nextWinners;
+                this.allUsersCount = this.usersService.users.length;
+            }
         );
     }
 
