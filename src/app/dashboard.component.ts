@@ -154,6 +154,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     onCleanWinnersList(){
         this.usersService.cleanWinnersList();
+        this.winners.length = 0;
     }
 
     goToUserDetails(userId:string){
