@@ -37,18 +37,17 @@ export class UsersService {
         // If there are no remaining users - return the same winners
         if (usersByCountry.length === 0) {
             this.newWinnersDrawn.emit(this.winners);
-            return false;
+        } else {
+            const nextWinner = this.getRandomWinners(
+                this.getAllUsersByCountry(this.country)
+            );
+            this.winners.push(nextWinner);
+
+            // Remote the just picked winner, so we can't pick the same twice
+            _.remove(this.remainingUsers, { id: nextWinner.id });
+
+            this.newWinnersDrawn.emit(this.winners);
         }
-
-        const nextWinner = this.getRandomWinners(
-            this.getAllUsersByCountry(this.country)
-        );
-        this.winners.push(nextWinner);
-
-        // Remote the just picked winner, so we can't pick the same twice
-        _.remove(this.remainingUsers, { id: nextWinner.id });
-
-        this.newWinnersDrawn.emit(this.winners);
     }
 
     private fetchAllUsers() {

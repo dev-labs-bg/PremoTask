@@ -83,11 +83,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.onDrawingWinnersStop();
                 }
 
-                this.winners = nextWinners;
+                // To prevent issues by assinging it by reference
+                this.winners.length = 0;
+                this.winners = nextWinners.slice(0);
             }
         );
 
-        this.winners = this.usersService.winners;
+        this.winners = this.usersService.winners.slice(0);
     }
 
     onSubmit(){
